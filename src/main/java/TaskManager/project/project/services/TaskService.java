@@ -15,8 +15,8 @@ public class TaskService {
         return repo.findAll();
     }
 
-    public void addTask(Task task) {
-        repo.save(task);
+    public Task addTask(Task task) {
+        return repo.save(task);
     }
 
     public Task getByTaskId(int id) {
