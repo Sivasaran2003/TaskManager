@@ -24,8 +24,8 @@ public class TaskController {
     }
 
     @PostMapping("/task")
-    public void addNewTask(@RequestBody Task task) {
-        service.addTask(task);
+    public Task addNewTask(@RequestBody Task task) {
+        return service.addTask(task);
     }
 
     @GetMapping("/task/{id}")
