@@ -29,13 +29,13 @@ public class TaskController {
     }
 
     @GetMapping("/task/{id}")
-    public void getByTaskId(@PathVariable int id) {
-        service.getByTaskId(id);
+    public Task getByTaskId(@PathVariable int id) {
+        return service.getByTaskId(id);
     }
 
     @PutMapping("/task")
-    public void updateTask(@RequestBody Task task) {
-        service.updateTask(task);
+    public Task updateTask(@RequestBody Task task) {
+        return service.updateTask(task);
     }
 
     @DeleteMapping("/task/{id}")

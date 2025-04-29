@@ -20,11 +20,11 @@ public class TaskService {
     }
 
     public Task getByTaskId(int id) {
-        return repo.getReferenceById(id);
+        return repo.findById(id).orElse(null);
     }
 
-    public void updateTask(Task task) {
-        repo.save(task);
+    public Task updateTask(Task task) {
+        return repo.save(task);
     }
 
     public void deleteTask(int id) {
