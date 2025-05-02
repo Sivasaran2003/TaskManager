@@ -11,6 +11,8 @@ import java.util.List;
 public class TaskService {
     @Autowired
     TaskRepository repo;
+
+    //gets all the tasks
     public List<Task> getTasks() {
         return repo.findAll();
     }
@@ -23,12 +25,28 @@ public class TaskService {
         return repo.findById(id).orElse(null);
     }
 
+    //update the task attributes
     public Task updateTask(Task task) {
+        //if the task is done, deletes from db
+        if(task.getStatus().equals("done")) {
+            return null;
+        }
         return repo.save(task);
     }
 
+    //deletes the task by the given id
     public void deleteTask(int id) {
         repo.deleteById(id);
+    }
+
+    //based on the status, tasks will be returned
+    public List<Task> getTasksByStatus(String status) {
+        return repo.getTasksByStatus(status);
+    }
+
+    //returns the sorted tasks
+    public List<Task> getTasksSorted() {
+        return repo.getTasksSorted();
     }
 
 }

@@ -9,38 +9,44 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/task")
 public class TaskController {
     @Autowired
     TaskService service;
 
-    @GetMapping("/")
-    public String greet() {
-        return "Hello World";
-    }
-
-    @GetMapping("/task")
+    @GetMapping
     public List<Task> getAllTasks() {
         return service.getTasks();
     }
 
-    @PostMapping("/task")
+    @PostMapping
     public Task addNewTask(@RequestBody Task task) {
         return service.addTask(task);
     }
 
-    @GetMapping("/task/{id}")
+    @GetMapping("/{id}")
     public Task getByTaskId(@PathVariable int id) {
         return service.getByTaskId(id);
     }
 
-    @PutMapping("/task")
+    @PutMapping
     public Task updateTask(@RequestBody Task task) {
         return service.updateTask(task);
     }
 
-    @DeleteMapping("/task/{id}")
+    @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable int id) {
         service.deleteTask(id);
+    }
+
+    @GetMapping("/status/{status}")
+    public List<Task> getTasksByStatus(@PathVariable String status) {
+        return service.getTasksByStatus(status);
+    }
+
+    @GetMapping("/sort")
+    public List<Task> getTasksSorted() {
+        return service.getTasksSorted();
     }
 
 }
