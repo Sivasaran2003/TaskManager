@@ -2,12 +2,9 @@ package TaskManager.project.project.controllers;
 
 import TaskManager.project.project.models.Task;
 import TaskManager.project.project.services.TaskService;
-import exceptions.TaskNotFoundException;
-import jakarta.websocket.server.PathParam;
-import org.apache.coyote.Response;
+import TaskManager.project.project.exceptions.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +28,8 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getByTaskId(@PathVariable int id) {
-        try {
-            return new ResponseEntity<>(service.getByTaskId(id), HttpStatus.OK);
-        }catch (TaskNotFoundException t) {
-            return new ResponseEntity<>(t.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(service.getByTaskId(id), HttpStatus.OK);
+
     }
 
     @PutMapping
@@ -45,12 +39,8 @@ public class TaskController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable int id) {
-        try {
-            service.deleteTask(id);
-            return new ResponseEntity<>("Task deleted", HttpStatus.OK);
-        }catch (TaskNotFoundException t) {
-            return new ResponseEntity<>(t.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        service.deleteTaskById(id);
+        return new ResponseEntity<>("Task deleted", HttpStatus.OK);
     }
 
     @GetMapping("/status/{status}")

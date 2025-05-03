@@ -2,7 +2,7 @@ package TaskManager.project.project.services;
 
 import TaskManager.project.project.models.Task;
 import TaskManager.project.project.repository.TaskRepository;
-import exceptions.TaskNotFoundException;
+import TaskManager.project.project.exceptions.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +35,7 @@ public class TaskService {
     }
 
     //deletes the task by the given id
-    public void deleteTask(int id) {
+    public void deleteTaskById(int id) {
         if(!repo.existsById(id)) {
             throw new TaskNotFoundException("Task with ID " + id + " not found");
         }
