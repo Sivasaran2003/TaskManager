@@ -1,6 +1,8 @@
 package TaskManager.project.project.controllers;
 
+import TaskManager.project.project.components.Mapper;
 import TaskManager.project.project.models.Task;
+import TaskManager.project.project.models.TaskDTO;
 import TaskManager.project.project.services.TaskService;
 import TaskManager.project.project.exceptions.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,16 @@ import java.util.List;
 public class TaskController {
     @Autowired
     TaskService service;
+    @Autowired
+    Mapper mapper;
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        return ResponseEntity.ok(service.getTasks());
+    public ResponseEntity<List<TaskDTO>> getAllTasks() {
+        List<TaskDTO> taskDTOs = service.getTasks()
+                                .stream()
+                                .map(task -> mapper.toDto(task))
+                                .toList();
+        return ResponseEntity.ok(taskDTOs);
     }
 
     @PostMapping
@@ -28,7 +36,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getByTaskId(@PathVariable int id) {
-        return new ResponseEntity<>(service.getByTaskId(id), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toDto(service.getByTaskId(id)), HttpStatus.OK);
 
     }
 
@@ -44,13 +52,21 @@ public class TaskController {
     }
 
     @GetMapping("/status/{status}")
-    public ResponseEntity<List<Task>> getTasksByStatus(@PathVariable String status) {
-        return new ResponseEntity<>(service.getTasksByStatus(status), HttpStatus.OK);
+    public ResponseEntity<List<TaskDTO>> getTasksByStatus(@PathVariable String status) {
+        List<TaskDTO> taskDTOs = service.getTasksByStatus(status)
+                .stream()
+                .map(task -> mapper.toDto(task))
+                .toList();
+        return new ResponseEntity<>(taskDTOs, HttpStatus.OK);
     }
 
     @GetMapping("/sort")
-    public ResponseEntity<List<Task>> getTasksSorted() {
-        return new ResponseEntity<>(service.getTasksSorted(), HttpStatus.OK);
+    public ResponseEntity<List<TaskDTO>> getTasksSorted() {
+        List<TaskDTO> taskDTOs = service.getTasksSorted()
+                                .stream()
+                                .map(task -> mapper.toDto(task))
+                                .toList();
+        return new ResponseEntity<>(taskDTOs, HttpStatus.OK);
     }
 
 }

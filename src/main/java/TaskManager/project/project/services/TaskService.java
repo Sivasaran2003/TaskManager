@@ -44,9 +44,7 @@ public class TaskService {
 
     //based on the status, tasks will be returned
     public List<Task> getTasksByStatus(String status) {
-        List<Task> tasks = repo.getTasksByStatus(status);
-        if(tasks.isEmpty());
-        return tasks;
+        return repo.getTasksByStatus(status);
     }
 
     //returns the sorted tasks
