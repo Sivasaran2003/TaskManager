@@ -2,10 +2,13 @@ package TaskManager.project.project.services;
 
 import TaskManager.project.project.models.Task;
 import TaskManager.project.project.repository.TaskRepository;
+import TaskManager.project.project.exceptions.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Service
 public class TaskService {
@@ -22,20 +25,20 @@ public class TaskService {
     }
 
     public Task getByTaskId(int id) {
-        return repo.findById(id).orElse(null);
+        return repo.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task with ID " + id + " not found"));
     }
 
     //update the task attributes
     public Task updateTask(Task task) {
-        //if the task is done, deletes from db
-        if(task.getStatus().equals("done")) {
-            return null;
-        }
         return repo.save(task);
     }
 
     //deletes the task by the given id
-    public void deleteTask(int id) {
+    public void deleteTaskById(int id) {
+        if(!repo.existsById(id)) {
+            throw new TaskNotFoundException("Task with ID " + id + " not found");
+        }
         repo.deleteById(id);
     }
 
